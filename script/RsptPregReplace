@@ -1,0 +1,8 @@
+<?php
+$result_content    = "";
+$input_content     = file_get_contents($argv[1]);
+$input_param       = $argv[2];
+$input_param_array = preg_split("/([^\\\])\//", $input_param, null, PREG_SPLIT_DELIM_CAPTURE);
+$result_content    = preg_replace("/".$input_param_array[0].$input_param_array[1]."/i", $input_param_array[2], $input_content);
+echo $result_content;
+?>

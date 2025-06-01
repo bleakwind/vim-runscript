@@ -1,0 +1,36 @@
+<?php
+$result_content    = "";
+$input_content     = file_get_contents($argv[1]);
+$input_param       = $argv[2];
+$content_match     = preg_match("/^([\t ]*)[^\t ]/i", $input_content, $begin_space);
+$content_split     = preg_split("/\n/i", $input_content);
+if ($content_match) {
+    $begin_space       = $begin_space[1];
+    $begin_space_len   = strlen($begin_space);
+} else {
+    $begin_space       = "";
+    $begin_space_len   = 0;
+}
+if (is_array($content_split) && count($content_split) > 0) {
+    $content_split_maxlen = 0;
+    foreach ($content_split as $k => $v) {
+        $content_match = preg_match("/^\s*([^=]+)\s*=(.*)$/i", $v, $matches);
+        if ($content_match) {
+            $content_thislen = strlen(trim($matches[1]));
+            $content_split_maxlen = $content_thislen > $content_split_maxlen ? $content_thislen : $content_split_maxlen;
+        }
+    }
+    $content_maxlen = ceil(($begin_space_len+$content_split_maxlen+1)/4)*4;
+    foreach ($content_split as $k => $v) {
+        $content_match = preg_match("/^\s*([^=]+)\s*=(.*)$/i", $v, $matches);
+        if ($content_match) {
+            $content_thislen = $content_maxlen-($begin_space_len+strlen(trim($matches[1])));
+            $result_content .= "\n".$begin_space.trim($matches[1]).str_repeat(" ", $content_thislen)."=".$matches[2];
+        } else {
+            $result_content .= "\n".$begin_space.trim($v);
+        }
+    }
+    $result_content = substr($result_content, 1);
+}
+echo $result_content;
+?>
