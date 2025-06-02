@@ -1,7 +1,7 @@
 # vim-runscript
 
-## RunScript processing text through custom script commands...
-Runscript is a Vim plugin that allows you to execute script files and process text content through custom commands.
+## Processing text through custom script commands...
+vim-runscript is a Vim plugin that allows you to execute script files and process text content through custom commands.
 
 ## Features
 - Automatically scans script directory and registers available scripts
