@@ -85,8 +85,10 @@ if exists('g:runscript_enabled') && g:runscript_enabled == 1
         return l:prefix
     endfunction
 
-    " Autocmd
-    augroup RunscriptCmd
+    " --------------------------------------------------
+    " runscript_cmd_bas
+    " --------------------------------------------------
+    augroup runscript_cmd_bas
         autocmd!
         autocmd VimEnter * call runscript#BuildScript()
     augroup END
