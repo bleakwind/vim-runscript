@@ -69,7 +69,7 @@ if exists('g:runscript_enabled') && g:runscript_enabled == 1
             setlocal noshellslash
             let l:result = system(g:runscript_runcomm.' -f '.shellescape(s:runscript_sptlist[a:code_funname]).' '.shellescape(s:runscript_inpdata).' '.shellescape(a:code_param))
             setlocal shellslash<
-            exe l:lnum1.','.l:lnum2.'d'
+            execute l:lnum1.','.l:lnum2.'d'
             call setpos('.', [0, l:lnum1-1, 1, 0])
             call append(line('.'), split(l:result, '[\n\r]', '1'))
         endif
