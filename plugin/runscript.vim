@@ -25,10 +25,12 @@ set cpoptions&vim
 " ============================================================================
 " runscript setting
 " ============================================================================
+" public setting
 let g:runscript_enabled     = get(g:, 'runscript_enabled', 0)
 let g:runscript_setpath     = get(g:, 'runscript_setpath', $HOME.'/.vim/runscript')
 let g:runscript_runcomm     = get(g:, 'runscript_runcomm', 'php')
 
+" public setting
 let s:runscript_inpdata     = g:runscript_setpath.'/inputdata'
 let s:runscript_sptpath     = expand('<sfile>:p:h:h').'/script'
 let s:runscript_sptlist     = {}
@@ -100,4 +102,3 @@ endif
 " ============================================================================
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
-
