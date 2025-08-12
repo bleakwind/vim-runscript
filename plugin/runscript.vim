@@ -39,7 +39,7 @@ let s:runscript_sptlist     = {}
 " runscript detail
 " g:runscript_enabled = 1
 " ============================================================================
-if exists('g:runscript_enabled') && g:runscript_enabled == 1
+if exists('g:runscript_enabled') && g:runscript_enabled ==# 1
 
     " --------------------------------------------------
     " runscript#BuildScript
