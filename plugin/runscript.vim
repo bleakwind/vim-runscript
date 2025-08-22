@@ -62,6 +62,9 @@ if exists('g:runscript_enabled') && g:runscript_enabled ==# 1
     " runscript#ExecuteScript
     " --------------------------------------------------
     function! runscript#ExecuteScript(code_funname, code_param)
+        if !isdirectory(g:runscript_setpath)
+            call mkdir(g:runscript_setpath, 'p', 0777)
+        endif
         let l:content = []
         let [l:lnum1, l:col1] = getpos("'<")[1:2]
         let [l:lnum2, l:col2] = getpos("'>")[1:2]
