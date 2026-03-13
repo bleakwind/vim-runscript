@@ -1,15 +1,15 @@
-" vim: set expandtab tabstop=4 softtabstop=4 shiftwidth=4: */
+"  vim: set expandtab tabstop=4 softtabstop=4 shiftwidth=4: */
 "
-" +--------------------------------------------------------------------------+
-" | $Id: runscript.vim 2025-05-23 02:30:17 Bleakwind Exp $                   |
-" +--------------------------------------------------------------------------+
-" | Copyright (c) 2008-2025 Bleakwind(Rick Wu).                              |
-" +--------------------------------------------------------------------------+
-" | This source file is runscript.vim.                                       |
-" | This source file is release under BSD license.                           |
-" +--------------------------------------------------------------------------+
-" | Author: Bleakwind(Rick Wu) <bleakwind@qq.com>                            |
-" +--------------------------------------------------------------------------+
+"  +-------------------------------------------------------------------------+
+"  | $Id: runscript.vim 2026-03-13 18:05:17 Bleakwind Exp $                  |
+"  +-------------------------------------------------------------------------+
+"  | Copyright (c) 2008-2026 Bleakwind(Rick Wu).                             |
+"  +-------------------------------------------------------------------------+
+"  | This source file is runscript.vim.                                      |
+"  | This source file is release under BSD license.                          |
+"  +-------------------------------------------------------------------------+
+"  | Author: Bleakwind(Rick Wu) <bleakwind@qq.com>                           |
+"  +-------------------------------------------------------------------------+
 "
 
 if exists('g:runscript_plugin') || &compatible
@@ -105,3 +105,4 @@ endif
 " ============================================================================
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
+
