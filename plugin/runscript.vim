@@ -1,7 +1,7 @@
 "  vim: set expandtab tabstop=4 softtabstop=4 shiftwidth=4: */
 "
 "  +-------------------------------------------------------------------------+
-"  | $Id: runscript.vim 2026-03-13 18:05:17 Bleakwind Exp $                  |
+"  | $Id: runscript.vim 2026-03-22 17:50:30 Bleakwind Exp $                  |
 "  +-------------------------------------------------------------------------+
 "  | Copyright (c) 2008-2026 Bleakwind(Rick Wu).                             |
 "  +-------------------------------------------------------------------------+
@@ -27,12 +27,13 @@ set cpoptions&vim
 " ============================================================================
 " public setting
 let g:runscript_enabled     = get(g:, 'runscript_enabled', 0)
-let g:runscript_setpath     = get(g:, 'runscript_setpath', $HOME.'/.vim/runscript')
+let g:runscript_inpscpt     = get(g:, 'runscript_inpscpt', '')
+let g:runscript_inppath     = get(g:, 'runscript_inppath', $HOME.'/.vim/runscript')
 let g:runscript_runcomm     = get(g:, 'runscript_runcomm', 'php')
 
-" public setting
-let s:runscript_inpdata     = g:runscript_setpath.'/inputdata'
-let s:runscript_sptpath     = expand('<sfile>:p:h:h').'/script'
+" plugin variable
+let s:runscript_sptscpt     = expand('<sfile>:p:h:h').'/script'
+let s:runscript_sptdata     = g:runscript_inppath.'/inputdata'
 let s:runscript_sptlist     = {}
 
 " ============================================================================
@@ -45,16 +46,27 @@ if exists('g:runscript_enabled') && g:runscript_enabled ==# 1
     " runscript#BuildScript
     " --------------------------------------------------
     function! runscript#BuildScript()
-        if !isdirectory(g:runscript_setpath)
-            call mkdir(g:runscript_setpath, 'p', 0777)
+        if !isdirectory(g:runscript_inppath)
+            call mkdir(g:runscript_inppath, 'p', 0777)
         endif
-        let l:script_list = filter(readdir(s:runscript_sptpath), 'v:val =~# ''\v^Rspt[a-z0-9_]{1,32}$\c''')
-        for il in script_list
-            let l:name = fnamemodify(il, ':r')
-            if l:name =~# '\v^[a-z0-9_]{1,32}$\c'
-                let s:runscript_sptlist[l:name] = s:runscript_sptpath.'/'.il
-                execute 'command! -nargs=? '.l:name.' call runscript#ExecuteScript('.string(l:name).', <q-args>)'
-            endif
+
+        let l:sptdir_list = []
+        if isdirectory(s:runscript_sptscpt)
+            call add(l:sptdir_list, s:runscript_sptscpt)
+        endif
+        if !empty(g:runscript_inpscpt) && isdirectory(g:runscript_inpscpt)
+            call add(l:sptdir_list, g:runscript_inpscpt)
+        endif
+
+        for dir in l:sptdir_list
+            let l:sptlist = filter(readdir(dir), 'v:val =~# ''\v^Rspt[a-z0-9_]{1,32}$\c''')
+            for spt in l:sptlist
+                let l:name = fnamemodify(spt, ':r')
+                if l:name =~# '\v^[a-z0-9_]{1,32}$\c'
+                    let s:runscript_sptlist[l:name] = dir.'/'.spt
+                    execute 'command! -nargs=? '.l:name.' call runscript#ExecuteScript('.string(l:name).', <q-args>)'
+                endif
+            endfor
         endfor
     endfunction
 
@@ -62,17 +74,17 @@ if exists('g:runscript_enabled') && g:runscript_enabled ==# 1
     " runscript#ExecuteScript
     " --------------------------------------------------
     function! runscript#ExecuteScript(code_funname, code_param)
-        if !isdirectory(g:runscript_setpath)
-            call mkdir(g:runscript_setpath, 'p', 0777)
+        if !isdirectory(g:runscript_inppath)
+            call mkdir(g:runscript_inppath, 'p', 0777)
         endif
         let l:content = []
         let [l:lnum1, l:col1] = getpos("'<")[1:2]
         let [l:lnum2, l:col2] = getpos("'>")[1:2]
         if l:lnum1 > 0 && l:lnum2 > 0
             let l:content = getline(l:lnum1, l:lnum2)
-            call writefile(l:content, s:runscript_inpdata, 'b')
+            call writefile(l:content, s:runscript_sptdata, 'b')
             setlocal noshellslash
-            let l:result = system(g:runscript_runcomm.' -f '.shellescape(s:runscript_sptlist[a:code_funname]).' '.shellescape(s:runscript_inpdata).' '.shellescape(a:code_param))
+            let l:result = system(g:runscript_runcomm.' -f '.shellescape(s:runscript_sptlist[a:code_funname]).' '.shellescape(s:runscript_sptdata).' '.shellescape(a:code_param))
             setlocal shellslash<
             execute l:lnum1.','.l:lnum2.'d'
             call setpos('.', [0, l:lnum1-1, 1, 0])

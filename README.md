@@ -30,11 +30,14 @@ Add these to your `.vimrc`:
 ```vim
 " Set 1 enable runscript (default: 0)
 let g:runscript_enabled = 1
+" Specifies the directory path for user-defined custom scripts (default: '')
+let g:runscript_inpscpt = '/pub/_program/vim/_tool/runscript/script'
 " Set runscript inputdata place (default: $HOME.'/.vim/runscript')
-let g:runscript_setpath = g:config_dir_data.'runscript'
+let g:runscript_inppath = g:config_dir_data.'runscript'
 " Set runscript command (default: php)
 let g:runscript_runcomm = 'php -d html_errors=0'
 ```
+
 Put these to your `.vimrc` for quick access:
 ```vim
 map  <Leader>r :<C-\>erunscript#ReadyComm()<CR>
@@ -48,3 +51,4 @@ vmap <Leader>r :<C-\>erunscript#ReadyComm()<CR>
 
 ## License
 BSD 2-Clause - See LICENSE file
+
