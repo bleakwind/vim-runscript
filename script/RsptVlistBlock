@@ -26,4 +26,4 @@ if (is_array($content_split) && count($content_split) > 0) {
     $result_content = substr($result_content, 1);
 }
 echo $result_content;
-?>
+
